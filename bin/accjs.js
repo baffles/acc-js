@@ -3,7 +3,7 @@
 
   QuoteExtension = (function() {
 
-    QuoteExtension.threadPageUrl = /\/forums\/(?:thread|reply)\/(\d+)(?:\/(\d+))?$/;
+    QuoteExtension.threadPageUrl = /\/forums\/(?:thread|reply)\/(\d+)(?:\/(\d+))?/;
 
     QuoteExtension.smileyImageUrl = /^\/forums\/smileys\/.*\.gif$/;
 
