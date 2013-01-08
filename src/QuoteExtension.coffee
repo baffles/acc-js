@@ -17,7 +17,8 @@ class QuoteExtension
 	
 	processPage: () ->
 		[ path, threadID, page ] = window.location.href.match QuoteExtension.threadPageUrl
-		if threadID?
+		threadLocked = $('span:contains("This thread is locked; no one can reply to it.")').length > 0
+		if threadID? and not threadLocked
 			quotes = @loadQuotes threadID
 			
 			for $post in $ 'table.post'

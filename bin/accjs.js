@@ -27,10 +27,11 @@
     };
 
     QuoteExtension.prototype.processPage = function() {
-      var $generateQuotesButton, $post, $postToolbar, $quoteButton, page, path, quotes, threadID, _i, _len, _ref, _ref1,
+      var $generateQuotesButton, $post, $postToolbar, $quoteButton, page, path, quotes, threadID, threadLocked, _i, _len, _ref, _ref1,
         _this = this;
       _ref = window.location.href.match(QuoteExtension.threadPageUrl), path = _ref[0], threadID = _ref[1], page = _ref[2];
-      if (threadID != null) {
+      threadLocked = $('span:contains("This thread is locked; no one can reply to it.")').length > 0;
+      if ((threadID != null) && !threadLocked) {
         quotes = this.loadQuotes(threadID);
         _ref1 = $('table.post');
         for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
