@@ -125,6 +125,9 @@
       $('.spoiler').replaceWith(function() {
         return "<spoiler>" + ($(this).html().trim()) + "</spoiler>";
       });
+      $('span.cuss').replaceWith(function() {
+        return $('span', $(this)).text();
+      });
       return ((function() {
         var _i, _len, _ref, _results;
         _ref = $quote.html().trim().split('\n');
