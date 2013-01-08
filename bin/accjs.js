@@ -121,6 +121,10 @@
       $('span.source-code', $quote).replaceWith(function() {
         return "<code>" + ($(this).text()) + "</code>";
       });
+      $('div > input.spoiler').parent().replaceWith('');
+      $('.spoiler').replaceWith(function() {
+        return "<spoiler>" + ($(this).html().trim()) + "</spoiler>";
+      });
       return ((function() {
         var _i, _len, _ref, _results;
         _ref = $quote.html().trim().split('\n');

@@ -94,6 +94,9 @@ class QuoteExtension
 			link = "http:#{link}" if link.startsWith '//'
 			"[#{link}]"
 		$('span.source-code', $quote).replaceWith () -> "<code>#{$(this).text()}</code>"
+		#jQuery('div > input.spoiler').parent()
+		$('div > input.spoiler').parent().replaceWith '' # remove spoiler buttons
+		$('.spoiler').replaceWith () -> "<spoiler>#{$(this).html().trim()}</spoiler>" # handle spoilers
 		# most tags can be kept as-is. we can re-write them to be more text friendly but that may introduce ambiguity
 		#$('b', $quote).replaceWith () -> "*#{$(this).html()}*"
 		#$('i', $quote).replaceWith () -> "/#{$(this).html()}/"
