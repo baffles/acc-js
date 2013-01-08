@@ -16,7 +16,7 @@ class QuoteExtension
 		$('img', $button).attr 'src', if selected then QuoteExtension.quoteSelectedIcon else QuoteExtension.quoteIcon
 	
 	processPage: () ->
-		[ path, threadID, page ] = window.location.href.match QuoteExtension.threadPageUrl
+		threadID = window.location.href.match(QuoteExtension.threadPageUrl)?[1]
 		threadLocked = $('span:contains("This thread is locked; no one can reply to it.")').length > 0
 		if threadID? and not threadLocked
 			quotes = @loadQuotes threadID
