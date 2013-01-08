@@ -12,6 +12,9 @@ class QuoteExtension
 	saveQuotes: (threadID, quotes) ->
 		sessionStorage.setItem "quotes[#{threadID}]", JSON.stringify quotes
 	
+	clearQuotes: (threadID) ->
+		sessionStorage.removeItem "quotes[#{threadID}]"
+	
 	updateQuoteButton: ($button, selected) ->
 		$('img', $button).attr 'src', if selected then QuoteExtension.quoteSelectedIcon else QuoteExtension.quoteIcon
 	
@@ -57,6 +60,8 @@ class QuoteExtension
 			
 			$postToolbar = $ '#post_form .toolbar'
 			$postToolbar.append $generateQuotesButton
+			
+			$('#post_form').submit (e) => @clearQuotes threadID
 	
 	generateQuotes: (quotes) ->
 		$editor = $('textarea[name=body]')

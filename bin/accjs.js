@@ -22,6 +22,10 @@
       return sessionStorage.setItem("quotes[" + threadID + "]", JSON.stringify(quotes));
     };
 
+    QuoteExtension.prototype.clearQuotes = function(threadID) {
+      return sessionStorage.removeItem("quotes[" + threadID + "]");
+    };
+
     QuoteExtension.prototype.updateQuoteButton = function($button, selected) {
       return $('img', $button).attr('src', selected ? QuoteExtension.quoteSelectedIcon : QuoteExtension.quoteIcon);
     };
@@ -70,7 +74,10 @@
           return _this.generateQuotes(quotes);
         });
         $postToolbar = $('#post_form .toolbar');
-        return $postToolbar.append($generateQuotesButton);
+        $postToolbar.append($generateQuotesButton);
+        return $('#post_form').submit(function(e) {
+          return _this.clearQuotes(threadID);
+        });
       }
     };
 
