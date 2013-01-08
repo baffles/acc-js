@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# A pre-commit hook that compiles accjs.
+# To enable this hook, copy this file to .git/hooks.
+
+cake build
+git add bin/
