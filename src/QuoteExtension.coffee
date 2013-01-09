@@ -85,7 +85,7 @@ class QuoteExtension
 		$('br', $quote).replaceWith '\n'
 		$('span.url', $quote).replaceWith '' # remove the [domain] tags after links
 		$('div.quote_container', $quote).replaceWith '' # don't quote quotes
-		$('div.source-code.snippet', $quote).replaceWith '' # don't quote large sections of source
+		$('div.source-code', $quote).replaceWith '' # don't quote large sections of source
 		$('img', $quote).replaceWith () ->
 			# figure out if we're cloning a smiley or a regular image
 			$img = $ this

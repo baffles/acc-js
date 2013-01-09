@@ -106,7 +106,7 @@
       $('br', $quote).replaceWith('\n');
       $('span.url', $quote).replaceWith('');
       $('div.quote_container', $quote).replaceWith('');
-      $('div.source-code.snippet', $quote).replaceWith('');
+      $('div.source-code', $quote).replaceWith('');
       $('img', $quote).replaceWith(function() {
         var $img;
         $img = $(this);
