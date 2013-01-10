@@ -1,6 +1,7 @@
 exec = require('child_process').exec
 
 option '-c', '--config [FILE]', 'Configuration File, defaults to config.json'
+option '-o', '--output [OUTDIR]', 'Output directory for build, defaults to bin'
 option '-k', '--key [KEY]', 'S3 API Key'
 option '-s', '--secret [SECRET]', 'S3 API Secret'
 option '-b', '--bucket [BUCKET]', 'S3 Destination Bucket'
@@ -21,17 +22,30 @@ getConfig = (options) ->
 		console.log "Error parsing #{configFile}: #{err}"
 	
 	effectiveConfig =
+		output: options.output ? config?.output ? './bin'
 		key: options.key ? config?.key
 		secret: options.secret ? config?.secret
 		bucket: options.bucket ? config?.bucket
 		path: options.path ? config?.path ? '/stable/'
 
 task 'build', 'rebuild accjs', (options) ->
-	exec 'coffee -j -c -p src/version.coffee src/QuoteExtension.coffee src/VersionFooter.coffee src/main.coffee > bin/accjs.js', (err, stdout, stderr) ->
+	fs = require 'fs'
+	path = require 'path'
+	
+	options = getConfig options
+	
+	if not fs.existsSync options.output
+		console.log "Making directory #{options.output}"
+		fs.mkdirSync options.output
+	
+	outFull = path.join options.output, 'accjs.js'
+	outMin = path.join options.output, 'accjs.min.js'
+	
+	exec "coffee -j -c -p src/version.coffee src/QuoteExtension.coffee src/VersionFooter.coffee src/main.coffee > #{outFull}", (err, stdout, stderr) ->
 		throw err if err?
-		exec 'uglifyjs bin/accjs.js -c -o bin/accjs.min.js', (err, stdout, stderr) ->
+		exec "uglifyjs bin/accjs.js -c -o #{outMin}", (err, stdout, stderr) ->
 			throw err if err?
-			console.log 'accjs.js and accjs.min.js built.'
+			console.log "#{outFull} and #{outMin} built."
 
 task 'upload', 'upload to S3', (options) ->
 	path = require 'path'

@@ -12,7 +12,7 @@ requests to improve compatibility are welcome.
 
 ## Editing and Uploading
 
-You'll need CoffeeScript and uglify-js installed to optimally edit the source.
+You'll need CoffeeScript and uglify-js installed to compile the source to JS.
 `cake`, `coffee`, and `uglifyjs` will need to be in your PATH to perform build
 tasks.
 
@@ -40,9 +40,6 @@ Alternatively, you can host this file someplace on your own and add the URL to
 it to the remote JS URLs textbox, or you can even copying the contents of the
 file directly to the Code box on the Custom CSS/JS page. If you're linking the
 file in from a non-HTTPS host, you may get warnings.
-
-The files in the bin folder in this repository are updated automatically when
-I commit. You'll probably want to use the minified version (`accjs.min.js`).
 
 ## Use
 
