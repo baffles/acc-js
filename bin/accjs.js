@@ -5,6 +5,8 @@
 
     QuoteExtension.threadPageUrl = /\/forums\/(?:thread|reply)\/(\d+)(?:\/(\d+))?/;
 
+    QuoteExtension.editPostPageUrl = /\/forums\/edit-post\/(\d+)(?:\/(\d+))?/;
+
     QuoteExtension.smileyImageUrl = /^\/forums\/smileys\/.*\.gif$/;
 
     QuoteExtension.quoteIcon = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAAQCAMAAADDGrRQAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAwBQTFRFAAAAmZmZw8PDy8vLz8/P09PT29vb4+Pj5+fn6ebm6+np6+vr7Onp7+3t7+3u7+7t7+/v8O3u8O7u8/Pz9PLy9PLz9/f3+Pf3+Pf4+Pj3+fj4/Pv8/Pz8////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgEGuBQAAAQB0Uk5T////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////AFP3ByUAAAAYdEVYdFNvZnR3YXJlAFBhaW50Lk5FVCB2My4zNqnn4iUAAACVSURBVChTXZDhDsIgDAb55obChs4xZDh8/8fEtoyYeYT+uJBLg8IPXyoKnwb0IRVyzvtuCPRze5e292ZOBYU1rKs5FRSWu1tMLdDIVFCY7GQNuBBjikkcOC+FEGiy8xoGnRSezi0PdsUD3SAFOpMVVzAM41HglcT561hq4dIT2pMrL7pSuM2EL+wELrQ/aI4L/04KlS//Ulwh/quwTAAAAABJRU5ErkJggg==';
@@ -26,29 +28,38 @@
       return sessionStorage.removeItem("quotes[" + threadID + "]");
     };
 
+    QuoteExtension.prototype.loadPostMapping = function(postID) {
+      return sessionStorage.getItem("posts[post-" + postID + "]");
+    };
+
+    QuoteExtension.prototype.savePostMapping = function(postID, threadID) {
+      return sessionStorage.setItem("posts[" + postID + "]", threadID);
+    };
+
     QuoteExtension.prototype.updateQuoteButton = function($button, selected) {
       return $('img', $button).attr('src', selected ? QuoteExtension.quoteSelectedIcon : QuoteExtension.quoteIcon);
     };
 
     QuoteExtension.prototype.processPage = function() {
-      var $generateQuotesButton, $post, $postToolbar, $quoteButton, quotes, threadID, threadLocked, _i, _len, _ref, _ref1,
+      var $post, $quoteButton, editPostID, quotes, threadID, threadLocked, _i, _len, _ref, _ref1, _ref2,
         _this = this;
       threadID = (_ref = window.location.href.match(QuoteExtension.threadPageUrl)) != null ? _ref[1] : void 0;
+      editPostID = (_ref1 = window.location.href.match(QuoteExtension.editPostPageUrl)) != null ? _ref1[1] : void 0;
       threadLocked = $('span:contains("This thread is locked; no one can reply to it.")').length > 0;
       if ((threadID != null) && !threadLocked) {
         quotes = this.loadQuotes(threadID);
-        _ref1 = $('table.post');
-        for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
-          $post = _ref1[_i];
+        _ref2 = $('table.post');
+        for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
+          $post = _ref2[_i];
           $quoteButton = $('<a>').addClass('quote-button').attr('href', '#').css('float', 'right').append($('<img>'));
           this.updateQuoteButton($quoteButton, quotes[$post.id] != null);
           $quoteButton.click({
             $button: $quoteButton,
             postID: $post.id
           }, function(e) {
-            var $button, postContent, postID, poster, url, _ref2;
+            var $button, postContent, postID, poster, url, _ref3;
             e.preventDefault();
-            _ref2 = e.data, $button = _ref2.$button, postID = _ref2.postID;
+            _ref3 = e.data, $button = _ref3.$button, postID = _ref3.postID;
             if (!(quotes[postID] != null)) {
               $post = $("#" + postID + ".post");
               poster = $('.info > .member > .originator', $post).text();
@@ -67,20 +78,35 @@
             return _this.saveQuotes(threadID, quotes);
           });
           $('.header', $post).append($quoteButton);
+          $($('.header img[alt=\'Edit Post\']', $post)[0]).parent().click(function() {
+            return _this.savePostMapping($post.id, threadID);
+          });
         }
-        $generateQuotesButton = $('<span>').addClass('button');
-        $generateQuotesButton.append($('<img>').attr('src', QuoteExtension.quoteSelectedIcon).css('height', '18px'));
-        $generateQuotesButton.append($('<span>').text(' Add Quotes'));
-        $generateQuotesButton.click(function(e) {
-          e.preventDefault();
-          return _this.appendQuotes(quotes);
-        });
-        $postToolbar = $('#post_form .toolbar');
-        $postToolbar.append($generateQuotesButton);
-        return $('#post_form').submit(function(e) {
-          return _this.clearQuotes(threadID);
-        });
+        return this.setupPostForm(threadID, quotes);
+      } else if (editPostID != null) {
+        threadID = this.loadPostMapping(editPostID);
+        if (threadID != null) {
+          quotes = this.loadQuotes(threadID);
+          return this.setupPostForm(threadID, quotes);
+        }
       }
+    };
+
+    QuoteExtension.prototype.setupPostForm = function(threadID, quotes) {
+      var $generateQuotesButton, $postToolbar,
+        _this = this;
+      $generateQuotesButton = $('<span>').addClass('button');
+      $generateQuotesButton.append($('<img>').attr('src', QuoteExtension.quoteSelectedIcon).css('height', '18px'));
+      $generateQuotesButton.append($('<span>').text(' Add Quotes'));
+      $generateQuotesButton.click(function(e) {
+        e.preventDefault();
+        return _this.appendQuotes(quotes);
+      });
+      $postToolbar = $('#post_form .toolbar');
+      $postToolbar.append($generateQuotesButton);
+      return $('#post_form').submit(function(e) {
+        return _this.clearQuotes(threadID);
+      });
     };
 
     QuoteExtension.prototype.appendQuotes = function(quotes) {
