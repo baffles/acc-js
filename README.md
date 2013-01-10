@@ -13,9 +13,16 @@ requests to improve compatibility are welcome.
 ## Editing and Uploading
 
 You'll need CoffeeScript and uglify-js installed to optimally edit the source.
+`cake`, `coffee`, and `uglifyjs` will need to be in your PATH to perform build
+tasks.
+
+You'll also need knox if you're going to use the cakefile task to upload to
+Amazon S3. You can install this locally by running `npm install knox`.
 
 Run `cake build` to rebuild the `accjs.js` and `accjs.min.js` files after
 editing.
+
+Run `cake upload` to upload the JavaScript output to Amazon S3.
 
 ## Installation
 
