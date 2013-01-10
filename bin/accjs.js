@@ -141,7 +141,7 @@
         return "[" + link + "]";
       });
       $('span.source-code', $quote).replaceWith(function() {
-        return "<code>" + ($(this).text()) + "</code>";
+        return $('<code>').text($(this).text());
       });
       $('div > input.spoiler').parent().replaceWith('');
       $('.spoiler').replaceWith(function() {

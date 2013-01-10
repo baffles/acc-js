@@ -107,8 +107,7 @@ class QuoteExtension
 			link = $('a', $ this).attr 'href'
 			link = "http:#{link}" if link.startsWith '//'
 			"[#{link}]"
-		$('span.source-code', $quote).replaceWith () -> "<code>#{$(this).text()}</code>"
-		#jQuery('div > input.spoiler').parent()
+		$('span.source-code', $quote).replaceWith () -> $('<code>').text $(this).text()
 		$('div > input.spoiler').parent().replaceWith '' # remove spoiler buttons
 		$('.spoiler').replaceWith () -> "<spoiler>#{$(this).html().trim()}</spoiler>" # handle spoilers
 		$('span.cuss').replaceWith () -> $('span', $ this).text() # handle cuss words
