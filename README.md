@@ -22,14 +22,20 @@ jQuery is required by these extensions. The easiest thing to do is to add
 `//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js` to the remote JS
 URLs textbox on your Custom CSS/JS page on Allegro.cc.
 
+You can probably hotlink to the latest git version of this script from the
+remote JS URLs textbox. Strictly speaking, this isn't a recommended practice on
+GitHub, but due to Allegro.cc using HTTPS, it's the easiest option.
+
+To hotlink, add `https://raw.github.com/baffles/acc-js/master/bin/accjs.min.js`
+to the remote JS URLs textbox.
+
+Alternatively, you can host this file someplace and add the URL to it to the
+remote JS URLs textbox, or you can even copying the contents of the file
+directly to the Code box on the Custom CSS/JS page. If you're linking the file
+in from a non-HTTPS host, you may get warnings.
+
 The files in the bin folder in this repository are updated automatically when
 I commit. You'll probably want to use accjs.min.js.
-
-You can host this file someplace and add the URL to it to the remote JS URLs
-textbox. However, at this moment, I recommend copying the contents of the file
-directly to the Code box on the Custom CSS/JS page. Linking the file in may
-lead to SSL warnings (unless you have an HTTPS server with a good certificate
-to put it on).
 
 ## Use
 
