@@ -100,12 +100,6 @@
     QuoteExtension.prototype.postToMarkup = function(postContent) {
       var $quote, line;
       $quote = $('<div>').html(postContent);
-      /*> <span xmlns="http://www.w3.org/1999/xhtml" class="remote-thumbnail">
-      		<span class="json">{"name":"606986","src":"\/\/djungxnpq2nug.cloudfront.net\/image\/cache\/f\/7\/f7952a82bebf114c9c3eeac956dc4f80.png","w":812,"h":635,"tn":"\/\/djungxnpq2nug.cloudfront.net\/image\/cache\/f\/7\/f7952a82bebf114c9c3eeac956dc4f80"}</span>
-      		[//djungxnpq2nug.cloudfront.net/image/cache/f/7/f7952a82bebf114c9c3eeac956dc4f80-240.jpg]
-      		</span>
-      */
-
       $('p', $quote).replaceWith(function() {
         return "" + ($(this).html().trim()) + "\n\n";
       });
