@@ -1,5 +1,11 @@
 (function() {
-  var $, QuoteExtension, quoteExtension;
+  var $, QuoteExtension, VersionFooter, quoteExtension, version, versionFooter;
+
+  version = {
+    name: 'acc-js',
+    url: 'https://github.com/baffles/acc-js',
+    version: '0.1.0'
+  };
 
   QuoteExtension = (function() {
 
@@ -197,12 +203,27 @@
 
   })();
 
+  VersionFooter = (function() {
+
+    function VersionFooter() {}
+
+    VersionFooter.prototype.processPage = function() {
+      return $('#footer > div').append("<br/><font color=\"#999999\"><a href=\"" + version.url + "\">" + version.name + "</a> version <b>" + version.version + "</b> active.</font>");
+    };
+
+    return VersionFooter;
+
+  })();
+
   $ = jQuery.noConflict();
 
   quoteExtension = new QuoteExtension;
 
+  versionFooter = new VersionFooter;
+
   $(function() {
-    return quoteExtension.processPage();
+    quoteExtension.processPage();
+    return versionFooter.processPage();
   });
 
 }).call(this);

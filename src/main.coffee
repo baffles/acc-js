@@ -2,6 +2,8 @@
 $ = jQuery.noConflict();
 
 quoteExtension = new QuoteExtension
+versionFooter = new VersionFooter
 
 $ () ->
 	quoteExtension.processPage()
+	versionFooter.processPage()

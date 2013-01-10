@@ -6,7 +6,7 @@ option '-b', '--bucket [BUCKET]', 'S3 Destination Bucket'
 option '-p', '--path [PATH]', 'S3 Destination Path'
 
 task 'build', 'rebuild accjs', (options) ->
-	exec 'coffee -j -c -p src/QuoteExtension.coffee src/main.coffee > bin/accjs.js', (err, stdout, stderr) ->
+	exec 'coffee -j -c -p src/version.coffee src/QuoteExtension.coffee src/VersionFooter.coffee src/main.coffee > bin/accjs.js', (err, stdout, stderr) ->
 		throw err if err?
 		exec 'uglifyjs bin/accjs.js -c -o bin/accjs.min.js', (err, stdout, stderr) ->
 			throw err if err?
@@ -42,7 +42,7 @@ task 'upload', 'upload to S3', (options) ->
 		bucket: options.bucket
 	
 	console.log 'Uploading accjs.js...'
-	client.putFile 'bin/accjs.js', path.join(options.path, 'accjs.js'), { 'x-amz-acl': 'public-read' }, (err, res) ->
+	client.putFile 'bin/accjs.js', path.join(options.path, 'accjs.js'), { 'x-amz-acl': 'public-read', 'Cache-Control': 'no-cache' }, (err, res) ->
 		console.log "Error uploading accjs.js: #{err}" if err?
 		if res.statusCode is 200
 			console.log 'Uploaded accjs.js.'
@@ -50,7 +50,7 @@ task 'upload', 'upload to S3', (options) ->
 			console.log "Error uploading accjs.js. [#{res.statusCode}]"
 	
 	console.log 'Uploading accjs.min.js...'
-	client.putFile 'bin/accjs.min.js', path.join(options.path, 'accjs.min.js'), { 'x-amz-acl': 'public-read' }, (err, res) ->
+	client.putFile 'bin/accjs.min.js', path.join(options.path, 'accjs.min.js'), { 'x-amz-acl': 'public-read', 'Cache-Control': 'no-cache' }, (err, res) ->
 		console.log "Error uploading accjs.min.js: #{err}" if err?
 		if res.statusCode is 200
 			console.log 'Uploaded accjs.min.js.'
