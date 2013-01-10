@@ -22,7 +22,9 @@ Amazon S3. You can install this locally by running `npm install knox`.
 Run `cake build` to rebuild the `accjs.js` and `accjs.min.js` files after
 editing.
 
-Run `cake upload` to upload the JavaScript output to Amazon S3.
+Run `cake upload` to upload the JavaScript output to Amazon S3. Create a
+`config.json` using `config.json.sample` or pass your S3 credentials to the
+upload command.
 
 ## Installation
 

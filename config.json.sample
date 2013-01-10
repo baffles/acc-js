@@ -1,0 +1,8 @@
+{
+	"key": "<Amazon S3 Key>",
+	"secret": "<Amazon S3 Secret>",
+	"bucket": "<Amazon S3 Bucket>"
+	
+	// path is optional. set to null or remove to use default (/stable)
+	,"path": "<Path to store in bucket>"
+}
