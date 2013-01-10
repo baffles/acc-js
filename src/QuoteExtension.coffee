@@ -79,7 +79,10 @@ class QuoteExtension
 	
 	postToMarkup: (postContent) ->
 		$quote = $('<div>').html postContent
-		
+		###> <span xmlns="http://www.w3.org/1999/xhtml" class="remote-thumbnail">
+		<span class="json">{"name":"606986","src":"\/\/djungxnpq2nug.cloudfront.net\/image\/cache\/f\/7\/f7952a82bebf114c9c3eeac956dc4f80.png","w":812,"h":635,"tn":"\/\/djungxnpq2nug.cloudfront.net\/image\/cache\/f\/7\/f7952a82bebf114c9c3eeac956dc4f80"}</span>
+		[//djungxnpq2nug.cloudfront.net/image/cache/f/7/f7952a82bebf114c9c3eeac956dc4f80-240.jpg]
+		</span>###
 		# clean up paragraphs
 		$('p', $quote).replaceWith () -> "#{$(this).html().trim()}\n\n"
 		$('br', $quote).replaceWith '\n'
@@ -95,6 +98,11 @@ class QuoteExtension
 				$img.attr 'alt'
 			else
 				"[#{$img.attr 'src'}]"
+		$('span.remote-thumbnail', $quote).replaceWith () ->
+			# figure out the original image
+			imageSrc = JSON.parse($('span.json', $ this)[0].innerText).src
+			imageSrc = "http:#{imageSrc}" if imageSrc.startsWith '//'
+			"[#{imageSrc}]"
 		$('.media-player', $quote).replaceWith () ->
 			link = $('a', $ this).attr 'href'
 			link = "http:#{link}" if link.startsWith '//'
