@@ -10,9 +10,10 @@ extensions are written in CoffeeScript (which compiles down to JavaScript).
 At the moment, these extensions have only been tested in Google Chrome. Pull
 requests to improve compatibility are welcome.
 
-## Editing
+## Editing and Uploading
 
 You'll need CoffeeScript and uglify-js installed to optimally edit the source.
+
 Run `cake build` to rebuild the `accjs.js` and `accjs.min.js` files after
 editing.
 
@@ -22,20 +23,17 @@ jQuery is required by these extensions. The easiest thing to do is to add
 `//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js` to the remote JS
 URLs textbox on your Custom CSS/JS page on Allegro.cc.
 
-You can probably hotlink to the latest git version of this script from the
-remote JS URLs textbox. Strictly speaking, this isn't a recommended practice on
-GitHub, but due to Allegro.cc using HTTPS, it's the easiest option.
+To use the latest tested, hosted by me on Amazon CloudFront, add
+`//d2kjp5wpflq1en.cloudfront.net/stable/accjs.min.js` to the remote JS URLs
+textbox.
 
-To hotlink, add `https://raw.github.com/baffles/acc-js/master/bin/accjs.min.js`
-to the remote JS URLs textbox.
-
-Alternatively, you can host this file someplace and add the URL to it to the
-remote JS URLs textbox, or you can even copying the contents of the file
-directly to the Code box on the Custom CSS/JS page. If you're linking the file
-in from a non-HTTPS host, you may get warnings.
+Alternatively, you can host this file someplace on your own and add the URL to
+it to the remote JS URLs textbox, or you can even copying the contents of the
+file directly to the Code box on the Custom CSS/JS page. If you're linking the
+file in from a non-HTTPS host, you may get warnings.
 
 The files in the bin folder in this repository are updated automatically when
-I commit. You'll probably want to use accjs.min.js.
+I commit. You'll probably want to use the minified version (`accjs.min.js`).
 
 ## Use
 
