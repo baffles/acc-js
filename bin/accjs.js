@@ -68,10 +68,12 @@
           });
           $('.header', $post).append($quoteButton);
         }
-        $generateQuotesButton = $("<span class=\"button\"><img src=\"" + QuoteExtension.quoteSelectedIcon + "\" style=\"height: 18px\" /><span> Generate Quotes</span></span>");
+        $generateQuotesButton = $('<span>').addClass('button');
+        $generateQuotesButton.append($('<img>').attr('src', QuoteExtension.quoteSelectedIcon).css('height', '18px'));
+        $generateQuotesButton.append($('<span>').text(' Add Quotes'));
         $generateQuotesButton.click(function(e) {
           e.preventDefault();
-          return _this.generateQuotes(quotes);
+          return _this.appendQuotes(quotes);
         });
         $postToolbar = $('#post_form .toolbar');
         $postToolbar.append($generateQuotesButton);
@@ -81,20 +83,29 @@
       }
     };
 
-    QuoteExtension.prototype.generateQuotes = function(quotes) {
-      var $editor, generatedQuotes, post, postID;
-      $editor = $('textarea[name=body]');
-      if ($editor.val().length > 0) {
-        if (!confirm('You have already begun entering a post. This post-in-progress will be lost if you generate quotes. Would you like to continue?')) {
-          return;
-        }
+    QuoteExtension.prototype.appendQuotes = function(quotes) {
+      var $editor, generatedQuotes, val;
+      generatedQuotes = this.generateQuotes(quotes);
+      if (generatedQuotes.length > 0) {
+        generatedQuotes += '\n\n';
       }
+      $editor = $('textarea[name=body]');
+      val = $editor.val().trim();
+      if (val.length > 0) {
+        val += '\n\n';
+      }
+      val += generatedQuotes;
+      return $editor.val(val);
+    };
+
+    QuoteExtension.prototype.generateQuotes = function(quotes) {
+      var generatedQuotes, post, postID;
       generatedQuotes = [];
       for (postID in quotes) {
         post = quotes[postID];
         generatedQuotes.push(this.postToMarkup(post.postContent));
       }
-      return $editor.val(generatedQuotes.join('\n\n'));
+      return generatedQuotes.join('\n\n\n\n');
     };
 
     QuoteExtension.prototype.postToMarkup = function(postContent) {
@@ -153,7 +164,7 @@
           _results.push("> " + line);
         }
         return _results;
-      })()).join('\n');
+      })()).join('\n').trim();
     };
 
     return QuoteExtension;

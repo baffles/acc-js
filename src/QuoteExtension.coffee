@@ -52,30 +52,35 @@ class QuoteExtension
 				
 				$('.header', $post).append $quoteButton
 			
-			
-			$generateQuotesButton = $ "<span class=\"button\"><img src=\"#{QuoteExtension.quoteSelectedIcon}\" style=\"height: 18px\" /><span> Generate Quotes</span></span>"
+			$generateQuotesButton = $('<span>').addClass('button')
+			$generateQuotesButton.append $('<img>').attr('src', QuoteExtension.quoteSelectedIcon).css('height', '18px')
+			$generateQuotesButton.append $('<span>').text ' Add Quotes'
 			$generateQuotesButton.click (e) =>
 				e.preventDefault()
-				@generateQuotes quotes
+				@appendQuotes quotes
 			
 			$postToolbar = $ '#post_form .toolbar'
 			$postToolbar.append $generateQuotesButton
 			
 			$('#post_form').submit (e) => @clearQuotes threadID
 	
-	generateQuotes: (quotes) ->
+	appendQuotes: (quotes) ->
+		generatedQuotes = @generateQuotes quotes
+		generatedQuotes += '\n\n' if generatedQuotes.length > 0
+		
 		$editor = $('textarea[name=body]')
-		
-		if $editor.val().length > 0
-			if not confirm 'You have already begun entering a post. This post-in-progress will be lost if you generate quotes. Would you like to continue?'
-				return
-		
+		val = $editor.val().trim()
+		val += '\n\n' if val.length > 0
+		val += generatedQuotes
+		$editor.val val
+	
+	generateQuotes: (quotes) ->
 		generatedQuotes = []
 		
 		for postID, post of quotes
 			generatedQuotes.push @postToMarkup post.postContent
 		
-		$editor.val generatedQuotes.join '\n\n'
+		generatedQuotes.join '\n\n\n\n'
 	
 	postToMarkup: (postContent) ->
 		$quote = $('<div>').html postContent
@@ -112,4 +117,4 @@ class QuoteExtension
 		#$('i', $quote).replaceWith () -> "/#{$(this).html()}/"
 		#$('u', $quote).replaceWith () -> "_#{$(this).html()}_"
 		
-		("> #{line}" for line in $quote.html().trim().split '\n').join('\n')
+		("> #{line}" for line in $quote.html().trim().split '\n').join('\n').trim()
