@@ -37,7 +37,7 @@ jQuery is required by these extensions. The easiest thing to do is to add
 `//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js` to the remote JS
 URLs textbox on your Custom CSS/JS page on Allegro.cc.
 
-To use the latest tested, hosted by me on Amazon CloudFront, add
+To use the latest tested version, hosted by me on Amazon CloudFront, add
 `//d2kjp5wpflq1en.cloudfront.net/stable/accjs.min.js` to the remote JS URLs
 textbox.
 
