@@ -5,6 +5,11 @@
 This is a work in progress suite of JavaScript extensions for Allegro.cc. These
 extensions are written in CoffeeScript (which compiles down to JavaScript).
 
+This is a reincarnation of a similar extension I wrote quite a while ago, back
+before I knew as much about web development, JavaScript, and jQuery. A thread
+discussing the original version can be found
+[here](https://www.allegro.cc/forums/thread/599644/0).
+
 ## Compatibility
 
 At the moment, these extensions have only been tested in Google Chrome. Pull
