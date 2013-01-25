@@ -39,7 +39,8 @@ textbox.
 Alternatively, you can host this file someplace on your own and add the URL to
 it to the remote JS URLs textbox, or you can even copying the contents of the
 file directly to the Code box on the Custom CSS/JS page. If you're linking the
-file in from a non-HTTPS host, you may get warnings.
+file in from a non-HTTPS host, however, you may get warnings now that A.cc
+uses SSL for everything now.
 
 ## Use
 
@@ -63,6 +64,12 @@ This is a reincarnation of a similar extension I wrote quite a while ago, back
 before I knew as much about web development, JavaScript, and jQuery. A thread
 discussing the original version can be found
 [here](https://www.allegro.cc/forums/thread/599644/0).
+
+### Version Footer
+
+This doesn't really do much. It adds a note to the page footer showing the
+version of the script that is active, along with a link to the repository on
+GitHub.
 
 ## Future
 
