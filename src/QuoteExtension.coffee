@@ -60,8 +60,10 @@ class QuoteExtension
 				
 				$('.header', $post).append $quoteButton
 				
-				$($('.header img[alt=\'Edit Post\']', $post)[0]).parent().click () =>
-					@savePostMapping $post.id, threadID
+				do ->
+					postID = $post.id
+					$($('.header img[alt=\'Edit Post\']', $post)[0]).parent().click () =>
+						@savePostMapping postID, threadID
 			
 			@setupPostForm threadID, quotes
 		else if editPostID?
