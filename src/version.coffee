@@ -1,4 +1,4 @@
 version =
 	name: 'acc-js'
 	url: 'https://github.com/baffles/acc-js'
-	version: '0.1.1'
+	version: '0.1.2'
